@@ -18,49 +18,45 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+//estrutura do nó
 typedef struct no {
 int dado;
 struct no *ant;
 struct no *prox;
 } No;
 
+//estrutura da lista
 typedef struct {
 No *inicio;
 No *fim;
 int tam;
-} ListaCDE;
+} ListaCSE;
 
 
 //funcoes de manipulacao
-void cria(ListaCDE *l);
-int insere(ListaCDE *l, int dado);
-int insereOrdenado(ListaCDE *l, int dado);
-int retira(ListaCDE *l, int dado);
+void cria(ListaCSE *l);
+int insere(ListaCSE *l, int dado);
+int insereOrdenado(ListaCSE *l, int dado);
+int retira(ListaCSE *l, int dado);
 
 
 //funcoes de visualizacao
-int estaVazia(ListaCDE l);
-int getInicio(ListaCDE l);
-int getFim(ListaCDE l);
-int getTamanho(ListaCDE l);
-void mostra(ListaCDE, int sentido);
+int estaVazia(ListaCSE l);
+int getInicio(ListaCSE l);
+int getFim(ListaCSE l);
+int getTamanho(ListaCSE l);
+void mostra(ListaCSE, int sentido);
 
 
 int main(){
 
-ListaCDE l;
+ListaCSE l;
 int dado, sucesso, opcao;
 cria(&l);
 
-/* INSERINDO DESORDENADO
-sucesso = insere(&l, 400); // eu optei por nao verificar se houve sucesso na
-insercao
-sucesso = insere(&l, 250);
-sucesso = insere(&l, 666);
-sucesso = insere(&l, 5000);
-sucesso = insere(&l, 10); */
-/* INSERINDO ORDENADO */
-    sucesso = insereOrdenado(&l, 400); // eu optei por nao verificar se houve sucesso na insercao
+
+// INSERINDO ORDENADO 
+    sucesso = insereOrdenado(&l, 400); 
     sucesso = insereOrdenado(&l, 250);
     sucesso = insereOrdenado(&l, 666);
     sucesso = insereOrdenado(&l, 5000);
@@ -109,14 +105,14 @@ while(!estaVazia(l))
 
 } //final escopo main
 
-void cria(ListaCDE *l)
+void cria(ListaCSE *l)
 {
     l->inicio = NULL;
     l->fim = NULL;
     l->tam = 0;
 }
 
-int insere(ListaCDE *l, int dado)
+int insere(ListaCSE *l, int dado)
 { // alocando no na memoria e checando se deu certo
     No *aux = (No *) malloc(sizeof(No));
     if(aux == NULL)
@@ -142,7 +138,7 @@ int insere(ListaCDE *l, int dado)
     return 1;
 }
 
-int insereOrdenado(ListaCDE *l, int dado)
+int insereOrdenado(ListaCSE *l, int dado)
 { // alocando no na memoria e checando se deu certo
     No *aux = (No *) malloc(sizeof(No));
     if(aux == NULL)
@@ -202,7 +198,7 @@ int insereOrdenado(ListaCDE *l, int dado)
     return 1;
     }
 
-int retira(ListaCDE *l, int dado)  
+int retira(ListaCSE *l, int dado)  
 {
     No *aux;
 
@@ -267,7 +263,7 @@ int retira(ListaCDE *l, int dado)
     return 1;
     }
 
-int estaVazia(ListaCDE l)
+int estaVazia(ListaCSE l)
 {
     if(l.inicio == NULL)
         return 1;
@@ -275,17 +271,17 @@ int estaVazia(ListaCDE l)
     return 0;
 }
 
-int getInicio(ListaCDE l)   
+int getInicio(ListaCSE l)   
 {
     return l.inicio->dado;
 }
 
-int getFim(ListaCDE l)
+int getFim(ListaCSE l)
 {
     return l.fim->dado;
 }
 
-int getTamanho(ListaCDE l) 
+int getTamanho(ListaCSE l) 
 {
     return l.tam;
 }
@@ -296,7 +292,7 @@ Exibe os elementos da lista, dependendo do sentido:
 2 - exibe do fim ao inicio
 */
 
-void mostra(ListaCDE l, int sentido)
+void mostra(ListaCSE l, int sentido)
 {
     No *aux;
     if(l.inicio == NULL) // lista vazia, nao mostra nada    
