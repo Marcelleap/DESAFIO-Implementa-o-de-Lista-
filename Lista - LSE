@@ -166,7 +166,9 @@ int insereFim(ListaLSE* l, int dado)
 
 int insereOrdenado(ListaLSE* l, int dado)
 {
-    No* aux = (No*)malloc(sizeof(No));
+    No *aux = (No*)malloc(sizeof(No));
+    No *atual = (No*)malloc(sizeof(No));
+
     if (aux == NULL)
         return 0;
 
@@ -176,14 +178,13 @@ int insereOrdenado(ListaLSE* l, int dado)
     //INSERINDO PRIMEIRO DADO
     if (l->inicio == NULL)
     {
-        l->inicio = aux;
-        l->fim = aux;
-        aux->prox = l->inicio;
+        aux->prox = l->incio;
+        l->incio = aux;
         return 1;
     }
 
     //INSERINDO NO INICIO
-    if (dado < l->inicio->dado)
+    if (aux->dado < l->inicio->dado)
     {
 
         aux->prox = l->inicio;
@@ -192,38 +193,27 @@ int insereOrdenado(ListaLSE* l, int dado)
     }
 
     //INSERINDO NO FIM
-    if (dado > l->fim->dado)
+    if (aux-> dado > l->fim->dado)
     {
-        aux->prox = l->inicio;
+        aux->prox = l->fim;
         l->fim = aux;
         return 1;
     }
 
 
     //INSERINDO NO MEIO
-    No* atual = l->inicio;
-    No* anterior = NULL;
 
-    while (atual != NULL && dado > atual->dado)
+    
+    
+    aux=l->inicio;
+
+    while (aux->prox && aux->dado>aux->prox->dado)
     {
-        anterior = atual;
-        atual = atual->prox;
+       aux=aux->prox;
     }
 
-    aux->prox = atual;
-
-    if (anterior == NULL)
-        l->inicio = aux;
-
-
-    else
-        l->fim = aux;
-
-    if (atual == NULL)
-    {
-        l->fim = aux;
-    }
-
+    atual->prox=aux->prox;
+    aux->prox = atual; 
     return 1;
 }
 
