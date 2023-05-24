@@ -1,38 +1,17 @@
-/*
-#####################################################################################################
-#####################################################################################################
-###                                                                                               ###
-###                       Pontifícia Universidade Catolica - PUC Minas                            ###
-###                                                                                               ###
-###                       Ciencias da Computação - 2º Periodo                                     ###
-###                       Algoritmos e Estruturas de Dados 2                                      ###
-###                       Professor: Rafael Martins D'addio                                       ###
-###                                                                                               ###
-###                       Tarefa Desafio: Implementação de Listas                                 ###
-###                                                                                               ###
-#####################################################################################################
-#####################################################################################################
-*/
-//LISTA LINEAR SIMPLESMENTE ENCADEADA
-
 #include<stdio.h>
 #include<stdlib.h>
 
 typedef struct no
 {
-
     int dado;
     struct no *prox;
-
 } No;
 
 typedef struct
 {
-
     No *inicio;
     No *fim;
     int tam;
-
 } ListaLSE;
 
 //funcoes de manipulacao
@@ -48,10 +27,8 @@ int getFim(ListaLSE l);
 int getTamanho(ListaLSE l);
 void mostra(ListaLSE);
 
-
 int main()
 {
-
     ListaLSE l;
     int dado, sucesso, opcao;
 
@@ -71,8 +48,7 @@ int main()
     sucesso = insereOrdenado(&l, 5000);
     sucesso = insereOrdenado(&l, 10);
 
-    if(!estaVazia(l))  //exibindo a lista
-    {
+    if(!estaVazia(l)){  //exibindo a lista
         printf("\n-------------------------------------------------\n");
         printf("Deseja ver os dados da lista?\n1 - sim \n2 - nao\n");
         scanf("%d", &opcao);
@@ -80,9 +56,9 @@ int main()
             exit(1);
         mostra(l);
     }
+
     opcao = 1;
-    while(opcao == 1)  // remover ate o usuario nao querer mais
-    {
+    while(opcao == 1){  // remover ate o usuario nao querer mais
         printf("\n-------------------------------------------------\n");
         printf("Qual dado deseja remover? ");
         scanf("%d", &dado);
@@ -99,22 +75,16 @@ int main()
 
     // liberando memoria...
     while(!estaVazia(l))
-    {
         sucesso = retira(&l, getInicio(l)); //retirando sempre o primeiro elemento
-    }
 }
 
-void cria(ListaLSE *l)
-{
-
+void cria(ListaLSE *l){
     l->inicio = NULL;
     l->fim = NULL;
     l->tam = 0;
 }
 
-int insere(ListaLSE *l, int dado)
-{
-
+int insere(ListaLSE *l, int dado){
     // alocando no na memoria e checando se deu certo
     No *aux = (No *) malloc(sizeof(No));
     if(aux == NULL)
@@ -125,8 +95,7 @@ int insere(ListaLSE *l, int dado)
     l->tam++;
 
     // 1o caso: primeiro elemento
-    if(l->inicio == NULL)
-    {
+    if(l->inicio == NULL){
         //inicio e fim da lista apontam para o novo no
         l->inicio = aux;
         l->fim = aux;
@@ -144,10 +113,7 @@ int insere(ListaLSE *l, int dado)
     return 1;
 }
 
-
-int insereOrdenado(ListaLSE *l, int dado)
-{
-
+int insereOrdenado(ListaLSE *l, int dado){
     // alocando no na memoria e checando se deu certo
     No *aux = (No *) malloc(sizeof(No));
     if(aux == NULL)
@@ -157,10 +123,8 @@ int insereOrdenado(ListaLSE *l, int dado)
     aux->dado = dado;
     l->tam++;
 
-    /* 1o caso: primeiro elemento */
-    if(l->inicio == NULL)
-    {
-
+    // 1o caso: primeiro elemento
+    if(l->inicio == NULL){
         //inicio e fim apontam para o novo no
         l->inicio = aux;
         l->fim = aux;
@@ -171,9 +135,7 @@ int insereOrdenado(ListaLSE *l, int dado)
     }
 
     /* 2o caso: dado menor que o dado do inicio, insere no inicio */
-    if(dado < l->inicio->dado)
-    {
-
+    if(dado < l->inicio->dado){
         aux->prox = l->inicio; //prox do novo inicio aponta para antigo inicio
         l->inicio = aux; //l->inicio aponta para novo inicio
         l->fim->prox = NULL; //proximo do fim aponta para NULL
@@ -182,9 +144,7 @@ int insereOrdenado(ListaLSE *l, int dado)
     }
 
     /* 3o caso: dado maior que o dado do fim, insere no fim */
-    if(dado > l->fim->dado)
-    {
-
+    if(dado > l->fim->dado){
         aux->prox = NULL; //prox do novo fim aponta para NULL
         l->fim->prox = aux; //prox do antigo fim aponta para novo fim
         l->fim = aux; //l->fim aponta para novo fim
@@ -198,13 +158,12 @@ int insereOrdenado(ListaLSE *l, int dado)
     No *anterior = l->inicio;
     No *atual = anterior->prox;
 
-    while(dado > atual->dado)
-    {
-
+    while(dado > atual->dado){
         // percorro a lista ate achar a posicao certa
         anterior = atual;
         atual = atual->prox;
     }
+
     // insiro o no entre anterior e atual
     aux->prox = atual; // prox do novo no aponta para atual
     anterior->prox = aux; // prox do anterior aponta para o novo no
@@ -212,47 +171,37 @@ int insereOrdenado(ListaLSE *l, int dado)
     return 1;
 }
 
-int retira(ListaLSE *l, int dado)
-{
+int retira(ListaLSE *l, int dado){
     No *atual = l->inicio;
     No *anterior = NULL;
 
-    if (atual == NULL)
-    {
+    if (atual == NULL){
         printf("Lista vazia\n");
         return 0;
     }
 
     // Procurando o elemento na lista
-    while (atual != NULL && atual->dado != dado)
-    {
+    while (atual != NULL && atual->dado != dado){
         anterior = atual;
         atual = atual->prox;
     }
 
-    if (atual == NULL)
-    {
+    if (atual == NULL){
         printf("O elemento %d nao esta na lista.\n", dado);
         return 0;
     }
 
-    // Removendo o elemento
-
-    // Se for o primeiro elemento
+   // 1o caso: primeiro elemento
     if (anterior == NULL)
-    {
         l->inicio = atual->prox;
-    }
-    else
-    {
-        anterior->prox = atual->prox;
-    }
 
-    // Se for o último elemento
+    else
+        anterior->prox = atual->prox;
+
+
+    //2o caso: ultimo elemento
     if (atual == l->fim)
-    {
         l->fim = anterior;
-    }
 
     free(atual);
     l->tam--;
@@ -260,31 +209,23 @@ int retira(ListaLSE *l, int dado)
     return 1;
 }
 
-int estaVazia(ListaLSE l)
-{
-
+int estaVazia(ListaLSE l){
     if(l.inicio == NULL)
         return 1;
 
     return 0;
 }
 
-int getInicio(ListaLSE l)
-{
-
+int getInicio(ListaLSE l){
     return l.inicio->dado;
 }
 
 
-int getFim(ListaLSE l)
-{
-
+int getFim(ListaLSE l){
     return l.fim->dado;
 }
 
-int getTamanho(ListaLSE l)
-{
-
+int getTamanho(ListaLSE l){
     return l.tam;
 }
 
@@ -293,9 +234,7 @@ int getTamanho(ListaLSE l)
     1 - exibe do inicio ao fim
     2 - exibe do fim ao inicio
 */
-void mostra(ListaLSE l)
-{
-
+void mostra(ListaLSE l){
     No *aux;
 
     if(l.inicio == NULL) // lista vazia, nao mostra nada
@@ -313,5 +252,4 @@ void mostra(ListaLSE l)
         }
         while(aux != NULL);  //percorre e imprime os nos ate chegar em NULL (fim da lista)
     }
-
 }
