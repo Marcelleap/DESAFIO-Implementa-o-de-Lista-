@@ -214,80 +214,47 @@ int insereOrdenado(ListaLSE *l, int dado)
 
 int retira(ListaLSE *l, int dado)
 {
+    No *atual = l->inicio;
+    No *anterior = NULL;
 
-    No *aux;
-
-    if(l->inicio == NULL)
+    if (atual == NULL)
     {
         printf("Lista vazia\n");
         return 0;
     }
 
-    /* 1o caso: lista unitaria */
-    if((dado == l->inicio->dado) && (l->inicio == l->fim))
-    {
-        aux = l->inicio; // aux aponta para o no que vou remover
-        l->inicio = NULL; //inicio aponta pra null
-        l->fim = NULL; // fim aponta pra null
-        free(aux); // libero a memoria
-        l->tam--;
-
-        return 1;
-    }
-
-    /* 2o caso: removendo primeiro elemento */
-    if(dado == l->inicio->dado)
-    {
-        aux = l->inicio; // aux aponta para o no que vou remover
-        l->inicio = aux->prox; //inicio aponta para o novo inicio (o segundo elemento)
-        l->fim->prox = NULL; // o proximo do fim aponta para NULL
-        free(aux); //libero memoria
-        l->tam--;
-
-        return 1;
-    }
-
-    /* 3o caso: removendo último elemento */
-    No *novoFim = l->inicio;
-
-    while (novoFim->prox != l->fim)
-        novoFim = novoFim->prox;
-
-    aux = l->fim; // aux aponta para o no que vou remover
-    l->fim = novoFim; // fim aponta para o novo fim (penultimo elemento)
-    l->fim->prox = NULL; // o proximo do novo fim aponta para NULL
-    free(aux); // libero a memoria
-    l->tam--;
-
-    return 1;
-
-
-    /* 4o caso: removendo um elemento no meio */
-
-    //Crio nos auxiliares de anterior e atual em relação ao no que sera removido
-    No *anterior = l->inicio;
-    No *atual = anterior->prox;
-
-    //Percorro a lista em busca do dado que devera ser removido
-    while ((atual != NULL) && (dado != atual->dado))
+    // Procurando o elemento na lista
+    while (atual != NULL && atual->dado != dado)
     {
         anterior = atual;
         atual = atual->prox;
     }
 
-    if (atual == NULL)     // se cheguei ao fim, nao encontrei o elemento
+    if (atual == NULL)
     {
         printf("O elemento %d nao esta na lista.\n", dado);
         return 0;
     }
 
-    // Se o no for encontrado, o prox do anterior ao no removido aponta para o prox do no removido
-    anterior->prox = atual->prox;
+    // Removendo o elemento
 
+    // Se for o primeiro elemento
+    if (anterior == NULL)
+    {
+        l->inicio = atual->prox;
+    }
+    else
+    {
+        anterior->prox = atual->prox;
+    }
+
+    // Se for o último elemento
     if (atual == l->fim)
-        l->fim = anterior; // atualiza o fim quando o último elemento é removido
+    {
+        l->fim = anterior;
+    }
 
-    free(atual); // Libero a memoria
+    free(atual);
     l->tam--;
 
     return 1;
