@@ -71,7 +71,11 @@ if(!estaVazia(l))
     printf ("\n\nDigite 1 para continuar o programa...\n\n");
     scanf ("%d", &opcao);
     mostra(l, opcao);
-
+    if (opcao != 1)
+    {
+    printf ("\nEncerrando Programa...");
+    return (0);
+    }
 }
 
 opcao = 1;
